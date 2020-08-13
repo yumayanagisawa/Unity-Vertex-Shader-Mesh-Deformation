@@ -8,6 +8,7 @@
         _Metallic ("Metallic", Range(0,1)) = 0.0
 
         _Frequency("Wave Freqency", Range(1, 8)) = 2
+        _Size("Wave Size", Range(0, 5)) = 1
     }
     SubShader
     {
@@ -34,10 +35,9 @@
         half _Metallic;
         fixed4 _Color;
 
-        float _Amplitude;
-        float _Frequency;
-        float _AnimationSpeed;
+        float _Frequency, _Size;
 
+        // classic perlin noise
         float3 mod289(float3 x)
         {
             return x - floor(x * (1.0 / 289.0)) * 289.0;
@@ -120,8 +120,8 @@
         }
         
         float ApplyNoise(float3 p) {
-            //float3 displacement = .970 * cnoise(1.3 * (sin(_Time.y * .5) + 2.) * p + _Time.y);
-            float displacement = .970 * cnoise(_Frequency * p + _Time.y);
+            //float3 displacement = _Size * cnoise(1.3 * (sin(_Time.y * .5) + 2.) * p + _Time.y);
+            float displacement = _Size * cnoise(_Frequency * p + _Time.y);
             return displacement;
         }
 
